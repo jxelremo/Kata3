@@ -9,23 +9,26 @@ import java.util.ArrayList;
 
 public class MailReader {
 
-    
-    public ArrayList<String> getDominiosArray(String filename) {
-        ArrayList<String> list = new ArrayList<>();
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(new File(filename)));
-            while (true) {
-                String mail = reader.readLine();
-                if (mail == null) break;
-                if (!mail.contains("@")) continue;
-                list.add(mail.split("@")[1].toLowerCase());
-            }
-        } 
-        catch (FileNotFoundException ex) {
-        }
-        catch (IOException ex) {
-        }
-        return list;
+    private final String filename;
+
+    public MailReader(String filename) {
+        this.filename = filename;
     }
-    
+
+       public ArrayList<String> getDominiosArray(){
+        ArrayList<String> dominiosArray = new ArrayList<>();
+        try{
+            BufferedReader fileIn = new BufferedReader(new FileReader(filename));
+            String mail;
+            while((mail = fileIn.readLine()) != null){
+                if(!mail.contains("@"))
+                    continue;
+                dominiosArray.add(mail.split("@")[1]);
+            }
+        } catch(Exception e){
+            System.out.println("Fichero no existe " + e);
+        }
+        return dominiosArray;
+    }
+
 }
